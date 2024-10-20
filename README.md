@@ -5,7 +5,7 @@ This is a Twitter clone application built to provide features similar to the pop
 ## Technologies Used
 
 - **Languages:** TypeScript, JavaScript, CSS, HTML
-- **Frameworks:** Next.js, React, Node.js
+- **Frameworks:** Next.js, React.js
 - **Libraries:** Zustand, Tailwind CSS
 - **Database:** MongoDB
 

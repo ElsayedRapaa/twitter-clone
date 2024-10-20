@@ -1,12 +1,15 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import toast from "react-hot-toast";
 
 import useLoginModal from "@/hooks/use-login-modal";
 import useRegisterModal from "@/hooks/use-register-modal";
 
 import Input from "../input";
 import Modal from "../modal";
+
+import { signIn } from "next-auth/react";
 
 const LoginModal = () => {
   const [email, setEmail] = useState("");
@@ -21,15 +24,21 @@ const LoginModal = () => {
     try {
       setIsLoading(true);
 
-      // TODO ADD LOGIN
+      await signIn("credentials", {
+        email,
+        password,
+      });
+
+      toast.success("Login successfully.");
 
       loginModal.onClose();
     } catch (error) {
       console.log(error);
+      toast.error("Something went wrong.");
     } finally {
       setIsLoading(false);
     }
-  }, [loginModal]);
+  }, [loginModal, email, password]);
 
   // Toggle Modal Login & Register
   const toggleModal = useCallback(() => {

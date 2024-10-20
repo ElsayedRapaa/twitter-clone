@@ -1,12 +1,18 @@
+"use client";
+
 import { BsBellFill, BsHouseFill } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
+import { BiLogOut } from "react-icons/bi";
 
 import SidebarLogo from "./sidebar-logo";
 import SidebarItem from "./sidebar-item";
-import { BiLogOut } from "react-icons/bi";
 import SidebarTweet from "./sidebar-tweet";
 
+import { signOut, useSession } from "next-auth/react";
+
 const Sidebar = () => {
+  const { data: session } = useSession();
+
   const items = [
     {
       label: "Home",
@@ -17,11 +23,13 @@ const Sidebar = () => {
       label: "Notifications",
       href: "/notifications",
       icon: BsBellFill,
+      auth: true,
     },
     {
       label: "Profile",
       href: "/users/id",
       icon: FaUser,
+      auth: true,
     },
   ];
 
@@ -36,9 +44,16 @@ const Sidebar = () => {
               label={item.label}
               href={item.href}
               icon={item.icon}
+              auth={item.auth}
             />
           ))}
-          <SidebarItem onClick={() => {}} icon={BiLogOut} label="Logout" />
+          {session && (
+            <SidebarItem
+              onClick={() => signOut()}
+              icon={BiLogOut}
+              label="Logout"
+            />
+          )}
           <SidebarTweet />
         </div>
       </div>

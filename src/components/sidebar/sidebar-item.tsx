@@ -1,12 +1,17 @@
-"use server";
+"use client";
 
+import { useSession } from "next-auth/react";
+import { useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { IconType } from "react-icons";
+import useLoginModal from "@/hooks/use-login-modal";
 
 interface SidebarItemProps {
   label: string;
   href?: string;
   icon: IconType;
   onClick?: () => void;
+  auth?: boolean;
 }
 
 const SidebarItem: React.FC<SidebarItemProps> = ({
@@ -14,9 +19,26 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   href,
   icon: Icon,
   onClick,
+  auth,
 }) => {
+  const router = useRouter();
+  const { data: session } = useSession();
+  const loginModal = useLoginModal();
+
+  const handleClick = useCallback(() => {
+    if (onClick) {
+      return onClick();
+    }
+
+    if (auth && !session) {
+      loginModal.onOpen();
+    } else if (href) {
+      router.push(href);
+    }
+  }, [onClick, router, href, auth, session, loginModal]);
+
   return (
-    <div className="flex flex-row items-center">
+    <div className="flex flex-row items-center" onClick={handleClick}>
       <div
         className="
           h-14
