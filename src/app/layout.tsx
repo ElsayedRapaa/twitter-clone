@@ -32,20 +32,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Toaster />
-      <AuthProvider>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <AuthProvider>
           <div className="h-full mx-auto xl:px-30 max-w-6xl">
             <div className="grid grid-cols-4 h-full">
+              <Toaster />
               <Sidebar />
               <Container>{children}</Container>
               <FollowBar />
             </div>
           </div>
-        </body>
-      </AuthProvider>
+        </AuthProvider>
+      </body>
     </html>
   );
 }
