@@ -1,20 +1,18 @@
 import prisma from "@/libs/db";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { userId: string } }
 ) {
   try {
-    const { userId } = params;
+    const { userId } = await params;
 
-    if (!userId || typeof userId !== "string") {
-      return new Response(
-        JSON.stringify({
-          success: false,
-          message: "Invalid user",
-        })
-      );
+    if (!userId) {
+      return NextResponse.json({
+        message: "Invalid user",
+        status: 404,
+      });
     }
 
     const user = await prisma.user.findUnique({
@@ -41,13 +39,7 @@ export async function GET(
       );
     }
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-        data: { ...user, followersCount },
-      }),
-      { status: 200 }
-    );
+    return NextResponse.json({ ...user, followersCount });
   } catch (error) {
     console.error("Error fetching user: ", error);
     return new Response(

@@ -12,6 +12,7 @@ import { signOut, useSession } from "next-auth/react";
 
 const Sidebar = () => {
   const { data: session } = useSession();
+  const userId = session?.user?.id;
 
   const items = [
     {
@@ -27,14 +28,14 @@ const Sidebar = () => {
     },
     {
       label: "Profile",
-      href: "/users/id",
+      href: `/user/${userId}`,
       icon: FaUser,
       auth: true,
     },
   ];
 
   return (
-    <div className="h-full col-span-1 pr-4 md:pr-6">
+    <aside className="h-full col-span-1 pr-4 md:pr-6">
       <div className="flex flex-col items-end">
         <div className="space-y-2 lg:w-[230px]">
           <SidebarLogo />
@@ -57,7 +58,7 @@ const Sidebar = () => {
           <SidebarTweet />
         </div>
       </div>
-    </div>
+    </aside>
   );
 };
 

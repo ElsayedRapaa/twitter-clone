@@ -1,27 +1,33 @@
-import Header from "@/components/header";
+"use client";
+
+import { use } from "react";
+import { ClipLoader } from "react-spinners";
 import useUser from "@/hooks/use-user";
-import { User } from "@/types/user-types";
 
-const UserPage = ({ params }: { params: { userId: string } }) => {
-  const userId = params.userId;
-  const { data, isLoading } = useUser(`?userId=${userId}`);
+import Header from "@/components/header";
+import UserHero from "@/components/users/user-hero";
+import UserBio from "@/components/users/user-bio";
 
-  if (isLoading) {
+const UserPage = ({ params }: { params: Promise<{ userId: string }> }) => {
+  const { userId } = use(params);
+  const { data: fetchUser, isLoading } = useUser(userId);
+
+  if (isLoading || !fetchUser) {
     return (
       <div className="h-full w-full flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-white border-r-gray-500 rounded-full animate-spin"></div>
+        {/* <div className="w-8 h-8 border-4 border-white border-r-gray-500 rounded-full animate-spin"></div> */}
+        <ClipLoader color="lightblue" size={50} />
       </div>
     );
   }
 
   return (
     <>
-      {data.data.map((item: User) => (
-        <div key={item.id}>
-          <Header label={item.username || "User Profile"} showBackArrow />
-          <h1 className="text-2xl font-bold text-white"></h1>
-        </div>
-      ))}
+      <section>
+        <Header label={fetchUser?.name || "User Profile"} showBackArrow />
+        <UserHero userId={userId} />
+        <UserBio userId={userId} />
+      </section>
     </>
   );
 };

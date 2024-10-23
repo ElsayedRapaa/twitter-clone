@@ -29,7 +29,7 @@ const Button: React.FC<ButtonProps> = ({
         border-2
         disabled:opacity-70
         disabled:cursor-not-allowed
-        ${large ? "text-xl" : "text-lg"}
+        ${large ? "text-xl" : "text-base"}
         ${large ? "py-2 px-4" : "py-1 px-3"}
         ${fullWidth ? "w-full" : "w-fit"}
         ${secondary ? "bg-white" : "bg-sky-500"}

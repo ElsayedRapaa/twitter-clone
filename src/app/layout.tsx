@@ -9,11 +9,6 @@ import Container from "@/components/container";
 import Sidebar from "@/components/sidebar/sidebar";
 import FollowBar from "@/components/follow-bar";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
@@ -32,13 +27,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistMono.variable} antialiased`}>
         <AuthProvider>
+          <Toaster />
           <div className="h-full mx-auto xl:px-30 max-w-6xl">
             <div className="grid grid-cols-4 h-full">
-              <Toaster />
               <Sidebar />
               <Container>{children}</Container>
               <FollowBar />

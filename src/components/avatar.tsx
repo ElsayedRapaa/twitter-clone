@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 import useUser from "@/hooks/use-user";
-import { User } from "@/types/user-types";
 
 interface AvatarProps {
   userId: string;
@@ -15,7 +14,7 @@ interface AvatarProps {
 }
 
 const Avatar: React.FC<AvatarProps> = ({ userId, isLarge, hasBorder }) => {
-  const { data: fetchUser, isLoading } = useUser(`?userId=${userId}`);
+  const { data, isLoading } = useUser(userId);
   const router = useRouter();
 
   const handleClick = useCallback(
@@ -31,41 +30,38 @@ const Avatar: React.FC<AvatarProps> = ({ userId, isLarge, hasBorder }) => {
   if (isLoading) {
     return (
       <div>
-        <span className="block mt-4 mx-auto w-4 h-4 rounded-full animate-spin border-2 border-white border-r-gray-500"></span>
+        <p className="block mt-4 mx-auto w-4 h-4 rounded-full animate-spin border-2 border-white border-r-gray-500"></p>
       </div>
     );
   }
 
   return (
     <>
-      {fetchUser.data.map((item: User) => (
-        <div
-          key={item.id}
-          className={`
-            ${hasBorder ? "border-4 border-black" : ""}
-            ${isLarge ? "w-32 h-32" : "w-12 h-12"}
-            rounded-full
-            transition
-            hover:opacity-90
-            cursor-pointer
-            relative
-          `}
+      <div
+        className={`
+          ${hasBorder ? "border-4 border-black" : ""}
+          ${isLarge ? "w-32 h-32" : "w-12 h-12"}
+          rounded-full
+          transition
+          hover:opacity-90
+          cursor-pointer
+          relative
+        `}
+        onClick={handleClick}
+      >
+        <Image
+          src={data.profileImage || "/images/avatar.jpg"}
+          alt="Avatar"
+          fill
+          style={{
+            objectFit: "cover",
+            borderRadius: "100%",
+          }}
+          sizes="(max-width: 128px), (min-width: 48px)"
           onClick={handleClick}
-        >
-          <Image
-            src={"/images/avatar.jpg"}
-            alt="Avatar"
-            fill
-            style={{
-              objectFit: "cover",
-              borderRadius: "100%",
-            }}
-            sizes="(max-width: 128px), (min-width: 48px)"
-            onClick={handleClick}
-            quality={100}
-          />
-        </div>
-      ))}
+          quality={100}
+        />
+      </div>
     </>
   );
 };
