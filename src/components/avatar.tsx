@@ -50,12 +50,13 @@ const Avatar: React.FC<AvatarProps> = ({ userId, isLarge, hasBorder }) => {
         onClick={handleClick}
       >
         <Image
-          src={data.profileImage || "/images/avatar.jpg"}
+          src={data?.profileImage || "/images/avatar.png"}
           alt="Avatar"
           fill
           style={{
             objectFit: "cover",
             borderRadius: "100%",
+            backgroundColor: "#CCC",
           }}
           sizes="(max-width: 128px), (min-width: 48px)"
           onClick={handleClick}

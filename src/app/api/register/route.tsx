@@ -41,6 +41,9 @@ export async function POST(request: NextRequest) {
         name,
         username,
         hashedPassword,
+        bio: "",
+        profileImage: "",
+        coverImage: "",
       },
     });
 

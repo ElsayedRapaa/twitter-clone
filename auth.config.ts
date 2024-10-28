@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { NextAuthConfig } from "next-auth";
 import CredentialsProviders from "next-auth/providers/credentials";
 import bcreypt from "bcryptjs";
@@ -12,9 +13,7 @@ export default {
         email: { label: "email", type: "email" },
         password: { label: "password", type: "password" },
       },
-      async authorize(
-        credentials: Partial<Record<"email" | "password", unknown>>
-      ) {
+      async authorize(credentials: any): Promise<any> {
         const email = credentials.email as string | undefined;
         const password = credentials.password as string;
 

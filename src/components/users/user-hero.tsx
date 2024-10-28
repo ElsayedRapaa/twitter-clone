@@ -18,7 +18,7 @@ const UserHero: React.FC<UserHeroProps> = ({ userId }) => {
           <Image
             src={fetchUser.coverImage}
             alt="Cover Image"
-            sizes="()max-width: 128px"
+            fill
             style={{ objectFit: "cover" }}
           />
         )}
